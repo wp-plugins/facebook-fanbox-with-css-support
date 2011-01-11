@@ -1,0 +1,102 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Poedit-Language: \n"
+"X-Poedit-Country: \n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;\n"
+"X-Poedit-Basepath: \n"
+"X-Poedit-Bookmarks: \n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Textdomain-Support: yes"
+
+#: facebook-fanbox-with-css-support.php:36
+#@ facebook-fanbox-with-css
+msgid "Add a Facebook Fanbox to your sidebar wich is fully customisable via CSS."
+msgstr "Fügt eine Facebook Fanbox zu Deiner Sidebar hinzu, welche komplett via CSS angepasst werden kann."
+
+#: facebook-fanbox-with-css-support.php:43
+#@ facebook-fanbox-with-css
+msgid "Facebook Fanbox (with CSS)"
+msgstr "Facebook Fanbox (with CSS)"
+
+#: facebook-fanbox-with-css-support.php:68
+#@ facebook-fanbox-with-css
+msgid "The css file is <strong>not writable</strong>. Please make sure it is. You will find the file under <code>wp-content/plugins/facebook-fanbox-with-css-support/facebook-fanbox.css</code>.<br /><strong>Otherwise you can't edit the style of your fanbox.</strong>"
+msgstr "Die CSS Datei ist <strong>nicht beschreibbar</strong>. Bitte stelle sicher, dass sie es ist. Du findest die Datei unter <code>wp-content/plugins/facebook-fanbox-with-css-support/facebook-fanbox.css</code>.<br /><strong>Andernfalls kannst Du das CSS nicht bearbeiten.</strong>"
+
+#: facebook-fanbox-with-css-support.php:78
+#: facebook-fanbox-with-css-support.php:79
+#@ facebook-fanbox-with-css
+msgid "Title"
+msgstr "Titel"
+
+#: facebook-fanbox-with-css-support.php:83
+#@ facebook-fanbox-with-css
+msgid "Settings:"
+msgstr "Einstellungen:"
+
+#: facebook-fanbox-with-css-support.php:84
+#@ facebook-fanbox-with-css
+msgid "Fanpage-ID"
+msgstr "Fanpage-ID"
+
+#: facebook-fanbox-with-css-support.php:85
+#@ facebook-fanbox-with-css
+msgid "Friends to show"
+msgstr "Fans anzeigen"
+
+#: facebook-fanbox-with-css-support.php:86
+#@ facebook-fanbox-with-css
+msgid "Show Facebook-Stream"
+msgstr "Facebook-Stream anzeigen"
+
+#: facebook-fanbox-with-css-support.php:88
+#@ facebook-fanbox-with-css
+msgid "Needs ~ 300px more height !"
+msgstr "Braucht ~ 300px mehr Höhe !"
+
+#: facebook-fanbox-with-css-support.php:90
+#@ facebook-fanbox-with-css
+msgid "Show Logobar"
+msgstr "Logobar anzeigen"
+
+#: facebook-fanbox-with-css-support.php:92
+#@ facebook-fanbox-with-css
+msgid "Needs ~ 30px more height !"
+msgstr "Braucht ~ 30px mehr Höhe"
+
+#: facebook-fanbox-with-css-support.php:94
+#@ facebook-fanbox-with-css
+msgid "Width"
+msgstr "Breite"
+
+#: facebook-fanbox-with-css-support.php:95
+#@ facebook-fanbox-with-css
+msgid "Height"
+msgstr "Höhe"
+
+#: facebook-fanbox-with-css-support.php:99
+#@ facebook-fanbox-with-css
+msgid "Custom CSS:"
+msgstr "Eigenes CSS:"
+
+#: facebook-fanbox-with-css-support.php:100
+#@ facebook-fanbox-with-css
+msgid "Write your CSS here ..."
+msgstr "Schreibe Dein eigenes CSS ..."
+
+#: facebook-fanbox-with-css-support.php:104
+#@ facebook-fanbox-with-css
+msgid "Like this Plugin? Support the developer."
+msgstr "Dir gefällt das Plugin? Spendier mir nen Kaffee."
+
