@@ -4,7 +4,7 @@ Donate link:
 Tags: Facebook, Fanbox, Likebox, CSS
 Requires at least: 2.9.2
 Tested up to: 3.1
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 
 Add a sidebarwidget with a fully css-customisable facebook fanbox to your WordPress-Blog.
 
@@ -48,6 +48,9 @@ Open your FTP-Client and connect to your server. You find the css located at `wp
 2. Widget
 
 == Changelog ==
+
+= 1.0.1 (12.01.2011) =
+* Fix: Setting the current locale (<em>must be defined in wp-config.php</em>)
 
 = 1.0.0 =
 * Initial Release
