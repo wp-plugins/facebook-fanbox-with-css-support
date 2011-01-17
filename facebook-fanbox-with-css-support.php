@@ -3,13 +3,17 @@
  * Plugin Name: Facebook Fanbox (with CSS Support)
  * Plugin URI: http://blog.ppfeufer.de/wordpress-plugin-facebook-fanbox-with-css-support/
  * Description: Add a sidebarwidget with a fully css-customisable facebook fanbox to your WordPress-Blog.
- * Version: 1.0.1
+ * Version: 1.1.0
  * Author: H.-Peter Pfeufer
  * Author URI: http://ppfeufer.de
  */
 
 /**
  * Changelog
+ * = 1.1.0 (17.01.2011) =
+ * Fix: Moved CSS to upload-dir, so its not effected on upadtes. **Please make sure to control and save your settings after this update**
+ * Update: German translation
+ *
  * = 1.0.1 (12.01.2011) =
  * Fix: Setting the current locale (<em>must be defined in wp-config.php</em>)
  *
@@ -21,9 +25,10 @@
 if(!defined('PPFEUFER_FLATTRSCRIPT')) {
 	define('PPFEUFER_FLATTRSCRIPT', 'http://cdn.ppfeufer.de/js/flattr/flattr.js');
 }
-define('FACEBOOK_FANBOX_WITH_CSS_VERSION', '1.0.1');
-define('FANBOX_CSS_FILE', WP_PLUGIN_DIR . '/' . str_replace(basename( __FILE__), "", plugin_basename(__FILE__)) . 'css/facebook-fanbox.css');
-define('FANBOX_CSS_URI', WP_PLUGIN_URL . '/' . str_replace(basename( __FILE__), "", plugin_basename(__FILE__)) . 'css/facebook-fanbox.css');
+define('FACEBOOK_FANBOX_WITH_CSS_VERSION', '1.1.0');
+define('FANBOX_CSS_FILE_DEFAULT', WP_PLUGIN_DIR . '/' . str_replace(basename( __FILE__), "", plugin_basename(__FILE__)) . 'css/facebook-fanbox.css');
+define('FANBOX_CSS_FILE', WP_CONTENT_DIR . '/uploads/facebook-fanbox.css');
+define('FANBOX_CSS_URI', WP_CONTENT_URL . '/uploads/facebook-fanbox.css');
 
 class Facebook_Fanbox_With_CSS extends WP_Widget {
 	/**
@@ -51,9 +56,12 @@ class Facebook_Fanbox_With_CSS extends WP_Widget {
 	 * @param array $instance
 	 */
 	function form($instance) {
+		$var_bCssErrorDifference = false;
+
 		$instance = wp_parse_args((array) $instance, array(
 			'title' => '',
 			'facebook-id' => '',
+			'css' => file_get_contents(FANBOX_CSS_FILE_DEFAULT),
 			'css-timestamp' => ',',
 			'number-of-connections' => '12',
 			'width' => '220',
@@ -63,14 +71,16 @@ class Facebook_Fanbox_With_CSS extends WP_Widget {
 		$stream = ($instance['stream'] == 'true') ? ' checked="checked"' : '';
 		$logobar = ($instance['logobar'] == 'true') ? ' checked="checked"' : '';
 
-		$var_sFanboxCSS = file_get_contents(FANBOX_CSS_FILE);
-		$var_sCssReadOnly = '';
-
-		// Prüfen ob die CSS-Datei beschreibbar ist
-		if (!is_writable(FANBOX_CSS_FILE)) {
-			echo '<p style="background-color:#ff0; padding:5px;">' . __('The css file is <strong>not writable</strong>. Please make sure it is. You will find the file under <code>wp-content/plugins/facebook-fanbox-with-css-support/facebook-fanbox.css</code>.<br /><strong>Otherwise you can\'t edit the style of your fanbox.</strong>', 'facebook-fanbox-with-css') . '</p>';
-			$var_sCssReadOnly = ' readonly="readonly"';
-			$var_sReadOnlyStyle = ' background-color:#c0c0c0;';
+		// CSS prüfen
+		$var_sFanboxCssDatabaseContent = $instance['css'];
+		$var_sFanboxCssFileContent = file_get_contents(FANBOX_CSS_FILE);
+		if(!$var_sFanboxCssFileContent) {
+			// CSS Datei existiert nicht, also wird sie erstellt
+			$this->facebook_fanbox_css_update($var_sFanboxCssDatabaseContent);
+		} else {
+			if ($var_sFanboxCssFileContent != $var_sFanboxCssDatabaseContent) {
+				$var_bCssErrorDifference = true;
+			}
 		}
 
 		// Name and Version (hidden field)
@@ -100,7 +110,11 @@ class Facebook_Fanbox_With_CSS extends WP_Widget {
 
 		// Own CSS
 		echo '<p style="border-bottom: 1px solid #DFDFDF;"><strong>' . __('Custom CSS:', 'facebook-fanbox-with-css') . '</strong></p>';
-		echo '<p><span style="display:inline-block;">' . __('Write your CSS here ...', 'facebook-fanbox-with-css') . '</span><textarea style="width:100%;' . $var_sReadOnlyStyle . '" id="' . $this->get_field_id('css') . '" rows="10" name="' . $this->get_field_name('css') . '"' . $var_sCssReadOnly . '>' . $var_sFanboxCSS . '</textarea></p>';
+		if ($var_bCssErrorDifference == true) {
+			echo '<p style="background-color:#ff0; padding:5px;">' . __('There is a difference between the css-file and the saved css in database <em>(The database is your leading css)</em>. Please check your css here and save to clear this issue and update the css-file.', 'facebook-fanbox-with-css') . '</p>';
+		}
+		echo '<p><span style="display:inline-block;">' . __('Write your CSS here ...', 'facebook-fanbox-with-css') . '</span><textarea style="width:100%;' . $var_sReadOnlyStyle . '" id="' . $this->get_field_id('css') . '" rows="10" name="' . $this->get_field_name('css') . '">' . $instance['css'] . '</textarea></p>';
+		echo '<p><input class="checkbox" type="checkbox" ' . $css_reset . ' id="' . $this->get_field_id('css-reset') . '" name="' . $this->get_field_name('css-reset') . '" onchange="wpWidgets.save(jQuery(this).closest(\'div.widget\'),0,1,0);" /> <span style="display:inline-block;">' . __('Reset to default css', 'facebook-fanbox-with-css') . '</span></p>';
 		echo '<p style="clear:both;"></p>';
 
 		// Flattr
@@ -160,7 +174,6 @@ class Facebook_Fanbox_With_CSS extends WP_Widget {
 		$instance['plugin-version'] = $new_instance['plugin-version'];
 		$instance['title'] = strip_tags($new_instance['title']);
 		$instance['facebook-id'] = strip_tags($new_instance['facebook-id']);
-		$instance['css'] = strip_tags($new_instance['css']);
 		$instance['css-timestamp'] = strip_tags($new_instance['css-timestamp']);
 		$instance['number-of-connections'] = strip_tags($new_instance['number-of-connections']);
 		$instance['width'] = strip_tags($new_instance['width']);
@@ -169,8 +182,13 @@ class Facebook_Fanbox_With_CSS extends WP_Widget {
 		$instance['logobar'] = $new_instance['logobar'] ? 'true' : 'false';
 
 		// CSS-Datei neu schreiben, sofern diese schreibbar ist
-		if(is_writable(FANBOX_CSS_FILE)) {
-			file_put_contents(FANBOX_CSS_FILE, $new_instance['css']);
+		if($new_instance['css-reset'] == true) {
+			$var_sCssFanboxDefault = file_get_contents(FANBOX_CSS_FILE_DEFAULT);
+			$instance['css'] = strip_Ctags($var_sCssFanboxDefault);
+			$this->facebook_fanbox_css_update($var_sCssFanboxDefault);
+		} else {
+			$instance['css'] = strip_tags($new_instance['css']);
+			$this->facebook_fanbox_css_update($instance['css']);
 		}
 
 		return $instance;
@@ -192,6 +210,15 @@ class Facebook_Fanbox_With_CSS extends WP_Widget {
 			height="<?php echo $args['height'] ?>px;">
 		</fb:fan>
 		<?php
+	}
+
+	/**
+	 * CSS-Datei Update
+	 */
+	function facebook_fanbox_css_update($var_sCss) {
+		file_put_contents(FANBOX_CSS_FILE, $var_sCss);
+
+		return;
 	}
 }
 

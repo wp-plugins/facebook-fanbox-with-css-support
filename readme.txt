@@ -4,7 +4,7 @@ Donate link:
 Tags: Facebook, Fanbox, Likebox, CSS
 Requires at least: 2.9.2
 Tested up to: 3.1
-Stable tag: 1.0.1
+Stable tag: 1.1.0
 
 Add a sidebarwidget with a fully css-customisable facebook fanbox to your WordPress-Blog.
 
@@ -24,7 +24,11 @@ Adds a likebox for your facebook-fanpage to your wordpress-sidebar. I know, ther
 
 **Notes**
 
-Thanks in advance to <a href="http://kkoepke.de/">Kai</a> for giving the idea for this plugin and also for testing it in his own <a href="http://kkoepke.de/blog/">blog</a> during the time of development. 
+Thanks in advance to <a href="http://kkoepke.de/">Kai</a> for giving the idea for this plugin and also for testing it in his own <a href="http://kkoepke.de/blog/">blog</a> during the time of development.
+
+**Important**
+
+If you update to version 1.1.0 make sure to control your settings and save them. **This is needed to generate the new css-file.** 
 
 == Installation ==
 
@@ -38,16 +42,16 @@ Thanks in advance to <a href="http://kkoepke.de/">Kai</a> for giving the idea fo
 
 Just go to your facebook-fanpage and take a look at the link "edit page". The link looks like `facebook.com/pages/edit/?id=xxxxxxxxxxxxxxx`. The number with the 15 digits after `?id`= is what you need.
 
-**How do I make the css file writable?**
-
-Open your FTP-Client and connect to your server. You find the css located at `wp-content/plugins/facebook-fanbox-with-css-support/facebook-fanbox.css`. Rightclick it and make it writable. (chmod 777)
-
 == Screenshots ==
 
 1. Widgetsettings
 2. Widget
 
 == Changelog ==
+
+= 1.1.0 (17.01.2011) =
+* Fix: Moved CSS to upload-dir, so its not effected on upadtes. **Please make sure to control and save your settings after this update**
+* Update: German translation
 
 = 1.0.1 (12.01.2011) =
 * Fix: Setting the current locale (<em>must be defined in wp-config.php</em>)
@@ -58,4 +62,4 @@ Open your FTP-Client and connect to your server. You find the css located at `wp
 
 == Upgrade Notice ==
 
-Just do it :-)
+If you update to version 1.1.0 make sure to control your settings and save them. **This is needed to generate the new css-file.**
