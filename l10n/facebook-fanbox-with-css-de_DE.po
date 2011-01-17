@@ -19,84 +19,89 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Textdomain-Support: yes"
 
-#: facebook-fanbox-with-css-support.php:36
+#: facebook-fanbox-with-css-support.php:44
 #@ facebook-fanbox-with-css
 msgid "Add a Facebook Fanbox to your sidebar wich is fully customisable via CSS."
 msgstr "Fügt eine Facebook Fanbox zu Deiner Sidebar hinzu, welche komplett via CSS angepasst werden kann."
 
-#: facebook-fanbox-with-css-support.php:43
+#: facebook-fanbox-with-css-support.php:51
 #@ facebook-fanbox-with-css
 msgid "Facebook Fanbox (with CSS)"
 msgstr "Facebook Fanbox (with CSS)"
 
-#: facebook-fanbox-with-css-support.php:68
-#@ facebook-fanbox-with-css
-msgid "The css file is <strong>not writable</strong>. Please make sure it is. You will find the file under <code>wp-content/plugins/facebook-fanbox-with-css-support/facebook-fanbox.css</code>.<br /><strong>Otherwise you can't edit the style of your fanbox.</strong>"
-msgstr "Die CSS Datei ist <strong>nicht beschreibbar</strong>. Bitte stelle sicher, dass sie es ist. Du findest die Datei unter <code>wp-content/plugins/facebook-fanbox-with-css-support/facebook-fanbox.css</code>.<br /><strong>Andernfalls kannst Du das CSS nicht bearbeiten.</strong>"
-
-#: facebook-fanbox-with-css-support.php:78
-#: facebook-fanbox-with-css-support.php:79
+#: facebook-fanbox-with-css-support.php:91
+#: facebook-fanbox-with-css-support.php:92
 #@ facebook-fanbox-with-css
 msgid "Title"
 msgstr "Titel"
 
-#: facebook-fanbox-with-css-support.php:83
+#: facebook-fanbox-with-css-support.php:96
 #@ facebook-fanbox-with-css
 msgid "Settings:"
 msgstr "Einstellungen:"
 
-#: facebook-fanbox-with-css-support.php:84
+#: facebook-fanbox-with-css-support.php:97
 #@ facebook-fanbox-with-css
 msgid "Fanpage-ID"
 msgstr "Fanpage-ID"
 
-#: facebook-fanbox-with-css-support.php:85
+#: facebook-fanbox-with-css-support.php:98
 #@ facebook-fanbox-with-css
 msgid "Friends to show"
 msgstr "Fans anzeigen"
 
-#: facebook-fanbox-with-css-support.php:86
+#: facebook-fanbox-with-css-support.php:99
 #@ facebook-fanbox-with-css
 msgid "Show Facebook-Stream"
 msgstr "Facebook-Stream anzeigen"
 
-#: facebook-fanbox-with-css-support.php:88
+#: facebook-fanbox-with-css-support.php:101
 #@ facebook-fanbox-with-css
 msgid "Needs ~ 300px more height !"
 msgstr "Braucht ~ 300px mehr Höhe !"
 
-#: facebook-fanbox-with-css-support.php:90
+#: facebook-fanbox-with-css-support.php:103
 #@ facebook-fanbox-with-css
 msgid "Show Logobar"
 msgstr "Logobar anzeigen"
 
-#: facebook-fanbox-with-css-support.php:92
+#: facebook-fanbox-with-css-support.php:105
 #@ facebook-fanbox-with-css
 msgid "Needs ~ 30px more height !"
 msgstr "Braucht ~ 30px mehr Höhe"
 
-#: facebook-fanbox-with-css-support.php:94
+#: facebook-fanbox-with-css-support.php:107
 #@ facebook-fanbox-with-css
 msgid "Width"
 msgstr "Breite"
 
-#: facebook-fanbox-with-css-support.php:95
+#: facebook-fanbox-with-css-support.php:108
 #@ facebook-fanbox-with-css
 msgid "Height"
 msgstr "Höhe"
 
-#: facebook-fanbox-with-css-support.php:99
+#: facebook-fanbox-with-css-support.php:112
 #@ facebook-fanbox-with-css
 msgid "Custom CSS:"
 msgstr "Eigenes CSS:"
 
-#: facebook-fanbox-with-css-support.php:100
+#: facebook-fanbox-with-css-support.php:116
 #@ facebook-fanbox-with-css
 msgid "Write your CSS here ..."
 msgstr "Schreibe Dein eigenes CSS ..."
 
-#: facebook-fanbox-with-css-support.php:104
+#: facebook-fanbox-with-css-support.php:121
 #@ facebook-fanbox-with-css
 msgid "Like this Plugin? Support the developer."
 msgstr "Dir gefällt das Plugin? Spendier mir nen Kaffee."
+
+#: facebook-fanbox-with-css-support.php:114
+#@ facebook-fanbox-with-css
+msgid "There is a difference between the css-file and the saved css in database <em>(The database is your leading css)</em>. Please check your css here and save to clear this issue and update the css-file."
+msgstr "Es gibt einen Unterschied zwischen der CSS-Datei und dem in der Datenbank hinterlegten CSS <em>(Die Datenbank beinhaltet das führende CSS, also Deins)</em>. Bitte prüfe das hier angegebene CSS und speichere um die Datei zu aktualisieren."
+
+#: facebook-fanbox-with-css-support.php:117
+#@ facebook-fanbox-with-css
+msgid "Reset to default css"
+msgstr "Standard-CSS wieder herstellen"
 
