@@ -3,13 +3,16 @@
  * Plugin Name: Facebook Fanbox (with CSS Support)
  * Plugin URI: http://blog.ppfeufer.de/wordpress-plugin-facebook-fanbox-with-css-support/
  * Description: Add a sidebarwidget with a fully css-customisable facebook fanbox to your WordPress-Blog.
- * Version: 1.1.3
+ * Version: 1.1.4
  * Author: H.-Peter Pfeufer
  * Author URI: http://ppfeufer.de
  */
 
 /**
  * Changelog
+ * = 1.1.4 (09.03.2011) =
+ * Fix: Corrected javascript-call. Type was missing.
+ *
  * = 1.1.3 (09.02.2011) =
  * Fix: hide titlebar if its empty.
  *
@@ -35,7 +38,7 @@ if(!defined('PPFEUFER_FLATTRSCRIPT')) {
 	define('PPFEUFER_FLATTRSCRIPT', 'http://cdn.ppfeufer.de/js/flattr/flattr.js');
 }
 
-define('FACEBOOK_FANBOX_WITH_CSS_VERSION', '1.1.3');
+define('FACEBOOK_FANBOX_WITH_CSS_VERSION', '1.1.4');
 
 define('FANBOX_CSS_FILE_DEFAULT', WP_PLUGIN_DIR . '/' . str_replace(basename( __FILE__), "", plugin_basename(__FILE__)) . 'css/facebook-fanbox.css');
 define('FANBOX_CSS_FILE', WP_CONTENT_DIR . '/uploads/facebook-fanbox.css');
@@ -241,7 +244,7 @@ add_action('widgets_init', create_function('', 'return register_widget("Facebook
 if(!is_admin()) {
 	// Footer um Facebook-JavaScript erweitern
 	function facebook_fanbox_with_css_footer() {
-		echo "\n" . '<!-- JS for Facebook Fanbox (with CSS Support) by H.-Peter Pfeufer [http://ppfeufer.de | http://blog.ppfeufer.de] -->' . "\n" . '<script src="http://connect.facebook.net/' . get_locale() . '/all.js#xfbml=1"></script>' . "\n" . '<!-- END of JS for Facebook Fanbox (with CSS Support) -->' . "\n\n";
+		echo "\n" . '<!-- JS for Facebook Fanbox (with CSS Support) by H.-Peter Pfeufer [http://ppfeufer.de | http://blog.ppfeufer.de] -->' . "\n" . '<script type="text/javascript" src="http://connect.facebook.net/' . get_locale() . '/all.js#xfbml=1"></script>' . "\n" . '<!-- END of JS for Facebook Fanbox (with CSS Support) -->' . "\n\n";
 	}
 
 	add_action('wp_footer', 'facebook_fanbox_with_css_footer');
