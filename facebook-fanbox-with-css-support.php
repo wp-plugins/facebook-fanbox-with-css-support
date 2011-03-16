@@ -3,15 +3,18 @@
  * Plugin Name: Facebook Fanbox (with CSS Support)
  * Plugin URI: http://blog.ppfeufer.de/wordpress-plugin-facebook-fanbox-with-css-support/
  * Description: Add a sidebarwidget with a fully css-customisable facebook fanbox to your WordPress-Blog.
- * Version: 1.1.5
+ * Version: 1.2.0
  * Author: H.-Peter Pfeufer
  * Author URI: http://ppfeufer.de
  */
 
 /**
  * Changelog
- * = 1.1.5 (09.03.2011) =
- * Fix: Typo in functioncall.
+ * = 1.2.0 (16.03.2011) =
+ * Fix: Check if all FB-Scripts are loaded correctly.
+ *
+ * = 1.1.5 (16.03.2011) =
+ * Fix: Typo in function call.
  *
  * = 1.1.4 (09.03.2011) =
  * Fix: Corrected javascript-call. Type was missing.
@@ -41,7 +44,7 @@ if(!defined('PPFEUFER_FLATTRSCRIPT')) {
 	define('PPFEUFER_FLATTRSCRIPT', 'http://cdn.ppfeufer.de/js/flattr/flattr.js');
 }
 
-define('FACEBOOK_FANBOX_WITH_CSS_VERSION', '1.1.4');
+define('FACEBOOK_FANBOX_WITH_CSS_VERSION', '1.2.0');
 
 define('FANBOX_CSS_FILE_DEFAULT', WP_PLUGIN_DIR . '/' . str_replace(basename( __FILE__), "", plugin_basename(__FILE__)) . 'css/facebook-fanbox.css');
 define('FANBOX_CSS_FILE', WP_CONTENT_DIR . '/uploads/facebook-fanbox.css');
@@ -153,6 +156,7 @@ class Facebook_Fanbox_With_CSS extends WP_Widget {
 	 * @param array $instance
 	 */
 	function widget($args, $instance) {
+		add_filter('language_attributes', 'facebook_fanbox_css_schema');
 		extract($args);
 
 		echo $before_widget;
@@ -217,6 +221,8 @@ class Facebook_Fanbox_With_CSS extends WP_Widget {
 	 * @param string $position
 	 */
 	function facebook_fanbox_with_css_output($args = array(), $position) {
+
+
 		?>
 		<fb:fan profile_id="<?php echo $args['facebook-id'] ?>"
 			css="<?php echo FANBOX_CSS_URI ?>?<?php echo $args['css-timestamp'] ?>"
@@ -229,6 +235,8 @@ class Facebook_Fanbox_With_CSS extends WP_Widget {
 		<?php
 	}
 
+
+
 	/**
 	 * CSS-Datei Update
 	 */
@@ -239,17 +247,70 @@ class Facebook_Fanbox_With_CSS extends WP_Widget {
 	}
 }
 
-add_action('widgets_init', create_function('', 'return register_widget("Facebook_Fanbox_With_CSS");'));
-
 /**
- * JavaScript einbinden
+ * <head>-Tag erweitern.
+ * Hierbei wird vorher geprüft, ob die "Erweiterung" schon
+ * vorhanden ist, durch eventuelle andere Plugins.
+ * Ich kann nur hoffen, dass andere Autoren das ebenfalls machen :-)
  */
-if(!is_admin()) {
-	// Footer um Facebook-JavaScript erweitern
-	function facebook_fanbox_with_css_footer() {
-		echo "\n" . '<!-- JS for Facebook Fanbox (with CSS Support) by H.-Peter Pfeufer [http://ppfeufer.de | http://blog.ppfeufer.de] -->' . "\n" . '<script type="text/javascript" src="http://connect.facebook.net/' . get_locale() . '/all.js#xfbml=1"></script>' . "\n" . '<!-- END of JS for Facebook Fanbox (with CSS Support) -->' . "\n\n";
+if(!function_exists('facebook_fanbox_css_schema')) {
+	function facebook_fanbox_css_schema($attr) {
+		$var_sFacebookSchema = ' xmlns:fb="http://www.facebook.com/2008/fbml" xmlns:og="http://ogp.me/ns#" ';
+
+		if(!strstr($attr, trim($var_sFacebookSchema))) {
+			$attr .= $var_sFacebookSchema;
+		}
+
+		return $attr;
 	}
 
-	add_action('wp_footer', 'facebook_fanbox_with_css_footer');
+	add_filter('language_attributes', 'facebook_fanbox_css_schema', 99);
 }
+
+/**
+ * Footer erweitern.
+ */
+if(!is_admin()) {
+	if(!function_exists('facebook_fanbox_with_css_footer')) {
+		function facebook_fanbox_with_css_footer() {
+			// Footer um Facebook-JavaScript erweitern.
+			echo "\n" . '<!-- JS for Facebook Fanbox (with CSS Support) by H.-Peter Pfeufer [http://ppfeufer.de | http://blog.ppfeufer.de] -->' . "\n";
+			echo '<script type="text/javascript">
+					var fbRoot = document.getElementById(\'fb-root\');
+
+					if (!fbRoot) {
+						var body = document.getElementsByTagName(\'body\')[0];
+						fbRoot = document.createElement(\'div\');
+						fbRoot.id = \'fb-root\';
+						body.appendChild(fbRoot);
+					}
+
+					var loadNewScript = true;
+					var script = fbRoot.getElementsByTagName(\'script\');
+
+					for (var i = 0, iMax = script.length; i < iMax; i++) {
+						if (script[i].src === \'http://connect.facebook.net/' . get_locale() . '/all.js#xfbml=1\') {
+							loadNewScript = false;
+							break;
+						}
+					}
+
+					if (loadNewScript) {
+						var elm = document.createElement(\'script\');
+						elm.src = \'http://connect.facebook.net/' . get_locale() . '/all.js#xfbml=1\';
+						elm.type = \'text/javascript\';
+						fbRoot.appendChild(elm);
+					}
+				</script>';
+			echo "\n" . '<!-- END of JS for Facebook Fanbox (with CSS Support) -->' . "\n\n";
+		}
+
+		add_action('wp_footer', 'facebook_fanbox_with_css_footer', 99);
+	}
+}
+
+/**
+ * Widget initialisieren.
+ */
+add_action('widgets_init', create_function('', 'return register_widget("Facebook_Fanbox_With_CSS");'));
 ?>
