@@ -3,13 +3,16 @@
  * Plugin Name: Facebook Fanbox (with CSS Support)
  * Plugin URI: http://blog.ppfeufer.de/wordpress-plugin-facebook-fanbox-with-css-support/
  * Description: Add a sidebarwidget with a fully css-customisable facebook fanbox to your WordPress-Blog.
- * Version: 1.1.4
+ * Version: 1.1.5
  * Author: H.-Peter Pfeufer
  * Author URI: http://ppfeufer.de
  */
 
 /**
  * Changelog
+ * = 1.1.5 (09.03.2011) =
+ * Fix: Typo in functioncall.
+ *
  * = 1.1.4 (09.03.2011) =
  * Fix: Corrected javascript-call. Type was missing.
  *
@@ -198,7 +201,7 @@ class Facebook_Fanbox_With_CSS extends WP_Widget {
 		// CSS-Datei neu schreiben, sofern diese schreibbar ist
 		if($new_instance['css-reset'] == true) {
 			$var_sCssFanboxDefault = @file_get_contents(FANBOX_CSS_FILE_DEFAULT);
-			$instance['css'] = strip_Ctags($var_sCssFanboxDefault);
+			$instance['css'] = strip_tags($var_sCssFanboxDefault);
 			$this->facebook_fanbox_css_update($var_sCssFanboxDefault);
 		} else {
 			$instance['css'] = strip_tags($new_instance['css']);
