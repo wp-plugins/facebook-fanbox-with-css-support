@@ -2,9 +2,9 @@
 Contributors: ppfeufer
 Donate link:
 Tags: Facebook, Fanbox, Likebox, CSS
-Requires at least: 2.9.2
-Tested up to: 3.1
-Stable tag: 1.2.0
+Requires at least: 3.1
+Tested up to: 3.3
+Stable tag: 1.2.1
 
 Add a sidebarwidget with a fully css-customisable facebook fanbox to your WordPress-Blog.
 
@@ -28,7 +28,7 @@ Thanks in advance to <a href="http://kkoepke.de/">Kai</a> for giving the idea fo
 
 **Important**
 
-If you update to version 1.1.0 make sure to control your settings and save them. **This is needed to generate the new css-file.** 
+If you update to version 1.1.0 make sure to control your settings and save them. **This is needed to generate the new css-file.**
 
 == Installation ==
 
@@ -48,6 +48,9 @@ Just go to your facebook-fanpage and take a look at the link "edit page". The li
 2. Widget
 
 == Changelog ==
+
+= 1.2.1 (09.11.2011) =
+* Ready for WordPress 3.3
 
 = 1.2.0 (16.03.2011) =
 * Fix: Check if all FB-Scripts are loaded correctly.
