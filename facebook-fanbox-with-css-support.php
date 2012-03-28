@@ -3,28 +3,33 @@
  * Plugin Name: Facebook Fanbox (with CSS Support)
  * Plugin URI: http://blog.ppfeufer.de/wordpress-plugin-facebook-fanbox-with-css-support/
  * Description: Add a sidebarwidget with a fully css-customisable facebook fanbox to your WordPress-Blog.
- * Version: 1.2.1
+ * Version: 1.3.1
  * Author: H.-Peter Pfeufer
  * Author URI: http://ppfeufer.de
  */
-
-if(!defined('PPFEUFER_FLATTRSCRIPT')) {
-	define('PPFEUFER_FLATTRSCRIPT', 'http://cdn.ppfeufer.de/js/flattr/flattr.js');
-}
-
-define('FACEBOOK_FANBOX_WITH_CSS_VERSION', '1.2.1');
 
 define('FANBOX_CSS_FILE_DEFAULT', WP_PLUGIN_DIR . '/' . str_replace(basename( __FILE__), "", plugin_basename(__FILE__)) . 'css/facebook-fanbox.css');
 define('FANBOX_CSS_FILE', WP_CONTENT_DIR . '/uploads/facebook-fanbox.css');
 define('FANBOX_CSS_URI', WP_CONTENT_URL . '/uploads/facebook-fanbox.css');
 
 class Facebook_Fanbox_With_CSS extends WP_Widget {
+	private $var_sFlattrLink;
+
 	/**
 	 * Constructor
 	 */
 	function Facebook_Fanbox_With_CSS() {
+		$this->var_sFlattrLink = 'http://flattr.com/thing/115342/WordPress-Plugin-Facebook-Fanbox-with-CSS-Support';
+
 		if(function_exists('load_plugin_textdomain')) {
 			load_plugin_textdomain('facebook-fanbox-with-css', PLUGINDIR . '/' . dirname(plugin_basename(__FILE__)) . '/l10n', dirname(plugin_basename(__FILE__)) . '/l10n');
+		}
+
+		if(ini_get('allow_url_fopen') || function_exists('curl_init')) {
+			add_action('in_plugin_update_message-' . plugin_basename(__FILE__), array(
+				$this,
+				'facebook_fanbox_css_update_notice'
+			));
 		}
 
 		$widget_ops = array(
@@ -73,7 +78,6 @@ class Facebook_Fanbox_With_CSS extends WP_Widget {
 
 		// Name and Version (hidden field)
 		echo '<input id="' . $this->get_field_id('plugin-name') . '" name="' . $this->get_field_name('plugin-name') . '" type="hidden" value="Facebook Fanbox (with CSS Support)" />';
-		echo '<input id="' . $this->get_field_id('plugin-version') . '" name="' . $this->get_field_name('plugin-version') . '" type="hidden" value="' . FACEBOOK_FANBOX_WITH_CSS_VERSION . '" />';
 
 		// Title
 		echo '<p style="border-bottom: 1px solid #DFDFDF;"><strong>' . __('Title', 'facebook-fanbox-with-css') . ':</strong></p>';
@@ -107,14 +111,7 @@ class Facebook_Fanbox_With_CSS extends WP_Widget {
 
 		// Flattr
 		echo '<p style="border-bottom: 1px solid #DFDFDF;"><strong>' . __('Like this Plugin? Support the developer.', 'facebook-fanbox-with-css') . '</strong></p>';
-		/**
-		 * JavaScript für Flattr einfügen
-		 */
-		if(!defined('PPFEUFER_FLATTRSCRIPT_IS_LOADED')) {
-			echo '<script type="text/javascript" src="' . PPFEUFER_FLATTRSCRIPT . '"></script>';
-			define('PPFEUFER_FLATTRSCRIPT_IS_LOADED', true);
-		}
-		echo '<p><a class="FlattrButton" style="display:none;" rev="flattr;button:compact;" href="http://blog.ppfeufer.de/wordpress-plugin-facebook-fanbox-with-css-support/"></a></p>';
+		echo '<p><a href="' . $this->var_sFlattrLink . '" target="_blank"><img src="http://api.flattr.com/button/flattr-badge-large.png" alt="Flattr this" title="Flattr this" border="0" /></a></p>';
 		echo '<p style="clear:both;"></p>';
 	}
 
@@ -149,7 +146,6 @@ class Facebook_Fanbox_With_CSS extends WP_Widget {
 
 		$new_instance = wp_parse_args((array) $new_instance, array(
 			'plugin-name' => 'Facebook Fanbox (with CSS Support)',
-			'plugin-version' => FACEBOOK_FANBOX_WITH_CSS_VERSION,
 			'title' => '',
 			'facebook-id' => '',
 			'css' => '',
@@ -190,7 +186,6 @@ class Facebook_Fanbox_With_CSS extends WP_Widget {
 	 */
 	function facebook_fanbox_with_css_output($args = array(), $position) {
 
-
 		?>
 		<fb:fan profile_id="<?php echo $args['facebook-id'] ?>"
 			css="<?php echo FANBOX_CSS_URI ?>?<?php echo $args['css-timestamp'] ?>"
@@ -203,8 +198,6 @@ class Facebook_Fanbox_With_CSS extends WP_Widget {
 		<?php
 	}
 
-
-
 	/**
 	 * CSS-Datei Update
 	 */
@@ -213,6 +206,71 @@ class Facebook_Fanbox_With_CSS extends WP_Widget {
 
 		return;
 	}
+
+	/**
+	 * A little notice on pluginupdates ....
+	 *
+	 * @since 0.1
+	 */
+	function facebook_fanbox_css_update_notice() {
+		$array_FBFBWCSS_Data = get_plugin_data(__FILE__);
+		$var_sUserAgent = 'Mozilla/5.0 (X11; Linux x86_64; rv:5.0) Gecko/20100101 Firefox/5.0 WorPress Plugin Facebook Fanbox with CSS Support (Version: ' . $array_FBFBWCSS_Data['Version'] . ') running on: ' . get_bloginfo('url');
+		$url = 'http://plugins.trac.wordpress.org/browser/facebook-fanbox-with-css-support/trunk/readme.txt?format=txt';
+		$data = '';
+
+		if(ini_get('allow_url_fopen')) {
+			$data = file_get_contents($url);
+		} else {
+			if(function_exists('curl_init')) {
+				$cUrl_Channel = curl_init();
+				curl_setopt($cUrl_Channel, CURLOPT_URL, $url);
+				curl_setopt($cUrl_Channel, CURLOPT_RETURNTRANSFER, 1);
+				curl_setopt($cUrl_Channel, CURLOPT_USERAGENT, $var_sUserAgent);
+				$data = curl_exec($cUrl_Channel);
+				curl_close($cUrl_Channel);
+			} // END if(function_exists('curl_init'))
+		} // END if(ini_get('allow_url_fopen'))
+
+		if($data) {
+			$regexp = '~==\s*Changelog\s*==\s*=\s*[0-9.]+\s*=(.*)(=\s*' . preg_quote($array_FBFBWCSS_Data['Version']) . '\s*=|$)~Uis';
+
+			if(preg_match($regexp, $data, $matches)) {
+				$changelog = (array) preg_split('~[\r\n]+~', trim($matches[1]));
+
+				echo '</div><div class="update-message" style="font-weight: normal;"><strong>What\'s new:</strong>';
+				$ul = false;
+				$version = 99;
+
+				foreach($changelog as $index => $line) {
+					if(version_compare($version, $array_FBFBWCSS_Data['Version'], ">")) {
+						if(preg_match('~^\s*\*\s*~', $line)) {
+							if(!$ul) {
+								echo '<ul style="list-style: disc; margin-left: 20px;">';
+								$ul = true;
+							} // END if(!$ul)
+
+							$line = preg_replace('~^\s*\*\s*~', '', $line);
+							echo '<li>' . $line . '</li>';
+						} else {
+							if($ul) {
+								echo '</ul>';
+								$ul = false;
+							} // END if($ul)
+
+							$version = trim($line, " =");
+							echo '<p style="margin: 5px 0;">' . htmlspecialchars($line) . '</p>';
+						} // END if(preg_match('~^\s*\*\s*~', $line))
+					} // END if(version_compare($version, TWOCLICK_SOCIALMEDIA_BUTTONS_VERSION,">"))
+				} // END foreach($changelog as $index => $line)
+
+				if($ul) {
+					echo '</ul><div style="clear: left;"></div>';
+				} // END if($ul)
+
+				echo '</div>';
+			} // END if(preg_match($regexp, $data, $matches))
+		} // END if($data)
+	} // END function update_notice()
 }
 
 /**
